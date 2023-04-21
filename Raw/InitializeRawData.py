@@ -14,44 +14,45 @@ def write_out(df: pd.DataFrame, output: str):
     writer.close()
     return
 
-def get_historical_data(tickers: list, startDate: str, endDate: str, df_extraInfo: pd.DataFrame) -> pd.DataFrame:
+def get_historical_data(df_addInfo: pd.DataFrame, startDate: str, endDate: str) -> pd.DataFrame:
     """
     Ingest and log historical data for SnP500 
     """
     temp = []
     logging.basicConfig(filename=r'Logs/20230417.log', level=logging.INFO, format='%(asctime)s %(name)s %(levelname)s %(message)s')
-    for tic in tickers:
+    for symbol, security, sector, sub_industry, cik in zip(df_addInfo['Symbol'].values, df_addInfo['Security'].values, df_addInfo['GICS Sector'].values, df_addInfo['GICS Sub-Industry'].values, df_addInfo['CIK'].values):
         try:
-            yf_ticker = yf.Ticker(tic)
+            yf_ticker = yf.Ticker(symbol)
             df_historicalData = pd.DataFrame(yf_ticker.history(start= startDate, end= endDate, interval= '1d', auto_adjust= True))
             df_historicalData.index = df_historicalData.index.tz_localize(None)
-            df_historicalData.insert(0, 'Symbol', tic)
-            temp.append(df_historicalData)
-            logging.info(f'Successfully retrieved {tic} data')
+            df_historicalData['Symbol'] = symbol
+            df_historicalData['Security'] = security
+            df_historicalData['GICS Sector'] = sector
+            df_historicalData['GICS Sub-Industry'] = sub_industry
+            df_historicalData['CIK'] = cik
+            temp.append(df_historicalData[['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'CIK'] + df_historicalData.columns[:-5].tolist()])
+            logging.info(f'Successfully retrieved {symbol} data')
             if len(df_historicalData) == 0:
                 raise Exception('No data found')
         except Exception as e:
-            logging.error(f'Error getting data for {tic}: {e}')
+            logging.error(f'Error getting data for {symbol}: {e}')
             if str(e) == 'No data found':
-                logging.error(f'Error: No data received for {tic}: {e}')
-    df_allHistoricalData = pd.concat(temp).reset_index()
-    df_mergeExtraInfo = pd.merge(df_allHistoricalData, df_extraInfo, on='Symbol')
-    return df_mergeExtraInfo
+                logging.error(f'Error: No data received for {symbol}: {e}')
+    new_df = pd.concat(temp).reset_index()
+    return new_df
 
 def main():
     """
     Read in tickers and call methods to read and write data
     """
-    SnP500List = pd.read_html(r'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies', converters= {'CIK': str})
-    filterData = SnP500List[0]
-    sortData = filterData.sort_values(by=['Symbol'], ascending=True).astype('string')
+    SnP500List = pd.read_html(r'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies', converters= {'CIK': str})[0]
+    sortData = SnP500List.sort_values(by=['Symbol'], ascending=True).astype('string')
     sortData['Symbol'] = sortData['Symbol'].str.replace('.','-', regex=True)
-    tickers = sortData['Symbol'].tolist()
     additionalInfo = sortData[['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'CIK']]
     startDate = '2023-01-01'
     endDate = '2023-04-17'
-    df_completeData = get_historical_data(tickers, startDate, endDate, additionalInfo)
-    write_out(df_completeData, r'Raw\RawData.xlsx')
+    test = get_historical_data(additionalInfo, startDate, endDate)
+    write_out(test, r'Raw\RawData.xlsx')
 
 if __name__ == '__main__':
     main()
