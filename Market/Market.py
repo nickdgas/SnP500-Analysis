@@ -11,6 +11,9 @@ def write_out(df: pd.DataFrame, output: str):
     return
 
 def main():
+    """
+    Calls methods to read and write data
+    """
     df_RawData = pd.read_excel(r'Raw\RawData.xlsx', converters= {'CIK': str})  
     df_Security = pd.read_excel(r'Security\Security.xlsx', usecols=['ID', 'Short Name']).rename(columns={'ID': 'SecurityID'})
     df_Date = pd.read_excel(r'Date\Date.xlsx').rename(columns={'ID': 'ReportDateID'})
