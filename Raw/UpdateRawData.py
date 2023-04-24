@@ -34,11 +34,11 @@ def update_historical_data(df_addInfo: pd.DataFrame, df_old: pd.DataFrame, start
             yf_ticker = yf.Ticker(symbol)
             df_historicalData = pd.DataFrame(yf_ticker.history(start= startDate, end= endDate, interval= '1d', auto_adjust= True))
             df_historicalData.index = df_historicalData.index.tz_localize(None)
-            df_historicalData['Symbol'] = str(symbol)
-            df_historicalData['Security'] = str(security)
-            df_historicalData['GICS Sector'] = str(sector)
-            df_historicalData['GICS Sub-Industry'] = str(sub_industry)
-            df_historicalData['CIK'] = str(cik)
+            df_historicalData['Symbol'] = symbol
+            df_historicalData['Security'] = security
+            df_historicalData['GICS Sector'] = sector
+            df_historicalData['GICS Sub-Industry'] = sub_industry
+            df_historicalData['CIK'] = cik
             temp.append(df_historicalData[['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'CIK'] + df_historicalData.columns[:-5].tolist()])
             logging.info(f'Successfully retrieved {symbol} data')
             if len(df_historicalData) == 0:
@@ -65,7 +65,6 @@ def main():
     endDate = str(get_current())
     df_updatedData = update_historical_data(additionalInfo, oldData, startDate, endDate)
     write_out(df_updatedData, r'Raw\RawData.xlsx')
-    print(df_updatedData.dtypes)
 
 if __name__ == '__main__':
     main()
