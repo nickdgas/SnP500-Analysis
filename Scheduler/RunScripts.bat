@@ -1,22 +1,22 @@
 @echo off
 
-echo Running script1.py...
-python script1.py
+echo Collecting raw data...
+python Raw\UpdateRawData.py
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
-echo Running scripts 2, 3, and 4...
-start cmd /c "python script2.py && python script3.py && python script4.py"
+echo Building relational model...
+start cmd /c "python Date\Date.py && python Security\Security.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
-echo Running script5.py...
-python script5.py
+echo Establishing relationships...
+python Market\Market.py
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
-echo All scripts completed successfully!
+echo Relational model completed successfully!
 goto END
 
 :ERROR
-echo An error occurred while running the scripts.
+echo An error occurred while generating model.
 goto END
 
 :END
