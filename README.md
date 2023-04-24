@@ -1,2 +1,5 @@
 # Fin-Project
-![](ERD/SnP500.png)
+| Current Relational Model |
+|:--:|
+|![](ERD/SnP500.png)|
+||
