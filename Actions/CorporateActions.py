@@ -13,10 +13,10 @@ def write_out(df: pd.DataFrame, output: str):
 
 def main():
     df_RawData = pd.read_excel(r'Raw\RawData.xlsx')
-    df_Act = df_RawData[['Dividends', 'Stock Splits']]
-    df_Act['ID'] = df_Act.index+1
-    df_Ordered = df_Act[['ID', 'Dividends', 'Stock Splits']]
-    write_out(df_Ordered, r'Actions\CorporateActions.xlsx')
+    df_Drop = df_RawData[['Symbol','Dividends', 'Stock Splits']]
+    df_Drop.insert(0, 'ID', df_Drop.index+1)
+    df_Act = df_Drop[['ID', 'Symbol', 'Dividends', 'Stock Splits']]
+    write_out(df_Act, r'Actions\CorporateActions.xlsx')
 
 if __name__ == '__main__':
     main()

@@ -5,7 +5,7 @@ python Raw\UpdateRawData.py
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
 echo Building relational model...
-start cmd /c "python Date\Date.py && python Security\Security.py"
+start cmd /c "python Date\Date.py && python Security\Security.py && python Type\Type.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
 echo Establishing relationships...
