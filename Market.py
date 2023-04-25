@@ -42,7 +42,7 @@ def main():
     df_RawData = pd.read_excel(r'Raw\RawData.xlsx', converters= {'CIK': str})  
     df_Security = pd.read_excel(r'Tables\Security.xlsx', usecols=['ID', 'Short Name']).rename(columns={'ID': 'SecurityID'})
     df_Date = pd.read_excel(r'Tables\Date.xlsx').rename(columns={'ID': 'ReportDateID'})
-    df_Type = pd.read_excel(r'Type\Type.xlsx').rename(columns={'ID': 'TypeID'})
+    df_Type = pd.read_excel(r'Tables\Type.xlsx').rename(columns={'ID': 'TypeID'})
     # group merge on 'Symbol' column; single merge on 'Date' column
     df_SecurityMerge = merge_dfs(df_RawData, df_Security, 'Symbol', 'Short Name')
     df_DateMerge = merge_dfs(df_SecurityMerge, df_Date, 'Date', 'Date')
@@ -50,7 +50,7 @@ def main():
     df_Long = df_DateMerge.melt(id_vars=['SecurityID', 'ReportDateID','Volume', 'Dividends', 'Stock Splits'],value_vars=['Open', 'High', 'Low', 'Close'], var_name='Type', value_name='Price')
     df_TypeMerge = merge_dfs(df_Long, df_Type, 'Type', 'Type')
     # filter columns; insert ID column
-    df_Market = df_TypeMerge[['ReportDateID', 'SecurityID', 'TypeID', 'Volume', 'Dividends', 'Stock Splits']]
+    df_Market = df_TypeMerge[['ReportDateID', 'SecurityID', 'TypeID', 'Price', 'Volume', 'Dividends', 'Stock Splits']]
     df_Market.insert(0, 'ID', df_Market.index+1)
     # write to excel
     write_out(df_Market, r'Tables\Market.xlsx')
