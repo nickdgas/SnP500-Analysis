@@ -1,4 +1,4 @@
-# Fin-Project
+# S&P 500 Analysis
 | Current Relational Model |
 |:--:|
 |![](ERD/SnP500.png)|

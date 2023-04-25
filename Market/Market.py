@@ -1,9 +1,9 @@
 import pandas as pd
 import xlsxwriter
 from functools import reduce
-from os import makedirs
-from os.path import join
 
+# from os import makedirs
+# from os.path import join
 # def write_out(df: pd.DataFrame, col: str, output_dir: str):
 #     """
 #     Writes output to Excel files, one file per month in the col column
@@ -43,6 +43,7 @@ def main():
     df_Security = pd.read_excel(r'Security\Security.xlsx', usecols=['ID', 'Short Name']).rename(columns={'ID': 'SecurityID'})
     df_Actions = pd.read_excel(r'Actions\CorporateActions.xlsx', usecols=['ID', 'Symbol']).rename(columns={'ID': 'CorporateActionsID'})
     df_Date = pd.read_excel(r'Date\Date.xlsx').rename(columns={'ID': 'ReportDateID'})
+
     df_Type = pd.read_excel(r'Type\Type.xlsx').rename(columns={'ID': 'TypeID'})
     # group merge on 'Symbol' column; single merge on 'Date' column
     df_SecurityMerge = merge_dfs(df_RawData, df_Security, 'Symbol', 'Short Name')
