@@ -1,7 +1,7 @@
 # S&P 500 Analysis
 | Current Relational Model |
 |:--:|
-|![](ERD/SnP500.png)|
+|![](SnP500.png)|
 |Primary and Foreign Keys are unique constraints used to relate various data sets in use|
 
 
