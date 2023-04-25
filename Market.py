@@ -40,10 +40,8 @@ def main():
     """
     # read data to be refrenced using FKs; use/rename only needed columns
     df_RawData = pd.read_excel(r'Raw\RawData.xlsx', converters= {'CIK': str})  
-    df_Security = pd.read_excel(r'Security\Security.xlsx', usecols=['ID', 'Short Name']).rename(columns={'ID': 'SecurityID'})
-    df_Actions = pd.read_excel(r'Actions\CorporateActions.xlsx', usecols=['ID', 'Symbol']).rename(columns={'ID': 'CorporateActionsID'})
-    df_Date = pd.read_excel(r'Date\Date.xlsx').rename(columns={'ID': 'ReportDateID'})
-
+    df_Security = pd.read_excel(r'Tables\Security.xlsx', usecols=['ID', 'Short Name']).rename(columns={'ID': 'SecurityID'})
+    df_Date = pd.read_excel(r'Tables\Date.xlsx').rename(columns={'ID': 'ReportDateID'})
     df_Type = pd.read_excel(r'Type\Type.xlsx').rename(columns={'ID': 'TypeID'})
     # group merge on 'Symbol' column; single merge on 'Date' column
     df_SecurityMerge = merge_dfs(df_RawData, df_Security, 'Symbol', 'Short Name')
@@ -55,7 +53,7 @@ def main():
     df_Market = df_TypeMerge[['ReportDateID', 'SecurityID', 'TypeID', 'Volume', 'Dividends', 'Stock Splits']]
     df_Market.insert(0, 'ID', df_Market.index+1)
     # write to excel
-    write_out(df_Market, r'Market\Market.xlsx')
+    write_out(df_Market, r'Tables\Market.xlsx')
 
 if __name__ == '__main__':
     main()

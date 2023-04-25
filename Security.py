@@ -22,7 +22,7 @@ def main():
     df_Drop.insert(0, 'ID', df_Drop.index+1)
     df_Security = df_Drop[['ID', 'Short Name', 'Long Name', 'Industry Sector', 'Industry Group', 'CIK']]
     # write to excel
-    write_out(df_Security, r'Security\Security.xlsx')   
+    write_out(df_Security, r'Tables\Security.xlsx')   
 
 if __name__ == '__main__':
     main()

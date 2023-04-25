@@ -22,7 +22,7 @@ def main():
     df_Type = df_Drop[['Type']].reset_index(drop=True)
     df_Type.insert(0, 'ID', df_Type.index+1)
     # write to excel
-    write_out(df_Type, r'Type\Type.xlsx')
+    write_out(df_Type, r'Tables\Type.xlsx')
     
 if __name__ == '__main__':
     main()

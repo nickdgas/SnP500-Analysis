@@ -27,7 +27,7 @@ def main():
     """
     df_RawData = pd.read_excel(r'Raw\RawData.xlsx')
     df_Date = get_date(df_RawData)
-    write_out(df_Date, r'Date\Date.xlsx')
+    write_out(df_Date, r'Tables\Date.xlsx')
 
 if __name__ == '__main__':
     main()
