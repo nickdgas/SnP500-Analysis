@@ -2,8 +2,7 @@
 | Current Relational Model |
 |:--:|
 |![](Png/SnP500.png)|
-|Primary key: 'ID'
- Foreign keys 'SecurityID', 'ReportDateID', 'CorporateActionsID' and 'TypeID' to establish relationships|
+|'Market' table references other tables via foreign keys|
  
 ### BI Reports
 | Historical Pricing Data for 2023 |
