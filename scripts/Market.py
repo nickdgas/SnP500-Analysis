@@ -39,10 +39,10 @@ def main():
     Calls methods to read and write data
     """
     # read data to be refrenced using FKs; use/rename only needed columns
-    df_RawData = pd.read_excel(r'Raw\RawData.xlsx', converters= {'CIK': str})  
-    df_Security = pd.read_excel(r'Tables\Security.xlsx', usecols=['ID', 'Short Name']).rename(columns={'ID': 'SecurityID'})
-    df_Date = pd.read_excel(r'Tables\Date.xlsx').rename(columns={'ID': 'ReportDateID'})
-    df_Type = pd.read_excel(r'Tables\Type.xlsx').rename(columns={'ID': 'TypeID'})
+    df_RawData = pd.read_excel(r'data\raw\RawData.xlsx', converters= {'CIK': str})  
+    df_Security = pd.read_excel(r'data\processed\Security.xlsx', usecols=['ID', 'Short Name']).rename(columns={'ID': 'SecurityID'})
+    df_Date = pd.read_excel(r'data\processed\Date.xlsx').rename(columns={'ID': 'ReportDateID'})
+    df_Type = pd.read_excel(r'data\processed\Type.xlsx').rename(columns={'ID': 'TypeID'})
     # group merge on 'Symbol' column; single merge on 'Date' column
     df_SecurityMerge = merge_dfs(df_RawData, df_Security, 'Symbol', 'Short Name')
     df_DateMerge = merge_dfs(df_SecurityMerge, df_Date, 'Date', 'Date')
@@ -53,7 +53,7 @@ def main():
     df_Market = df_TypeMerge[['ReportDateID', 'SecurityID', 'TypeID', 'Price', 'Volume', 'Dividends', 'Stock Splits']]
     df_Market.insert(0, 'ID', df_Market.index+1)
     # write to excel
-    write_out(df_Market, r'Tables\Market.xlsx')
+    write_out(df_Market, r'data\processed\Market.xlsx')
 
 if __name__ == '__main__':
     main()

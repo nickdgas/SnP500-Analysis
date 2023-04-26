@@ -25,9 +25,9 @@ def main():
     """
     Calls methods to read and write data
     """
-    df_RawData = pd.read_excel(r'Raw\RawData.xlsx')
+    df_RawData = pd.read_excel(r'data\raw\RawData.xlsx')
     df_Date = get_date(df_RawData)
-    write_out(df_Date, r'Tables\Date.xlsx')
+    write_out(df_Date, r'data\processed\Date.xlsx')
 
 if __name__ == '__main__':
     main()

@@ -1,13 +1,13 @@
 # S&P 500 Analysis
 | Current Relational Model |
 |:--:|
-|![](Png/SnP500.png)|
+|![](docs/images/SnP500.png)|
 |'Market' table references other tables via foreign keys|
  
 ### BI Reports
 | Historical Pricing Data for 2023 |
 |:--:|
-|![](Png/FAANG+MAMAAPricingData.png)|
+|![](docs/images/FAANG+MAMAAPricingData.png)|
 |Displays open/close and high/low pricing data for top tech companies|
 
 ### Disclaimer

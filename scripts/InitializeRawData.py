@@ -19,7 +19,7 @@ def get_historical_data(df_addInfo: pd.DataFrame, startDate: str, endDate: str) 
     Ingest and log historical data for SnP500 
     """
     temp = []
-    logging.basicConfig(filename=r'Logs/20230417.log', level=logging.INFO, format='%(asctime)s %(name)s %(levelname)s %(message)s')
+    logging.basicConfig(filename=r'docs\logs/20230417.log', level=logging.INFO, format='%(asctime)s %(name)s %(levelname)s %(message)s')
     for symbol, security, sector, sub_industry, cik in zip(df_addInfo['Symbol'].values, df_addInfo['Security'].values, df_addInfo['GICS Sector'].values, df_addInfo['GICS Sub-Industry'].values, df_addInfo['CIK'].values):
         try:
             yf_ticker = yf.Ticker(symbol)
@@ -52,7 +52,7 @@ def main():
     startDate = '2023-01-01'
     endDate = '2023-04-17'
     test = get_historical_data(additionalInfo, startDate, endDate)
-    write_out(test, r'Raw\RawData.xlsx')
+    write_out(test, r'data\raw\RawData.xlsx')
 
 if __name__ == '__main__':
     main()

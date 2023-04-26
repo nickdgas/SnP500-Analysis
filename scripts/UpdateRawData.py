@@ -26,7 +26,7 @@ def update_historical_data(df_addInfo: pd.DataFrame, df_old: pd.DataFrame, start
     """
     Ingest and log historical data for SnP500 
     """
-    logPath = r'Logs' + '\\' + endDate.replace('-', '') + r'.log'
+    logPath = r'docs\logs' + '\\' + endDate.replace('-', '') + r'.log'
     temp = []
     logging.basicConfig(filename=logPath, level=logging.INFO, format='%(asctime)s %(name)s %(levelname)s %(message)s')
     for symbol, security, sector, sub_industry, cik in zip(df_addInfo['Symbol'].values, df_addInfo['Security'].values, df_addInfo['GICS Sector'].values, df_addInfo['GICS Sub-Industry'].values, df_addInfo['CIK'].values):
@@ -60,11 +60,11 @@ def main():
     sortData = SnP500List.sort_values(by=['Symbol'], ascending=True).astype('string')
     sortData['Symbol'] = sortData['Symbol'].str.replace('.','-', regex=True)
     additionalInfo = sortData[['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'CIK']]
-    oldData = pd.read_excel(r'Raw\RawData.xlsx', converters= {'CIK': str})
+    oldData = pd.read_excel(r'data\raw\RawData.xlsx', converters= {'CIK': str})
     startDate = str(get_previous(oldData))
     endDate = str(get_current())
     df_updatedData = update_historical_data(additionalInfo, oldData, startDate, endDate)
-    write_out(df_updatedData, r'Raw\RawData.xlsx')
+    write_out(df_updatedData, r'data\raw\RawData.xlsx')
     print(df_updatedData.dtypes)
 
 if __name__ == '__main__':
