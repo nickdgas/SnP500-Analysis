@@ -4,6 +4,10 @@ echo Collecting raw data...
 python scripts\UpdateRawData.py
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
+echo Searching for corporate actions...
+python scripts\CorporateActions.py
+if %ERRORLEVEL% NEQ 0 goto ERROR
+
 echo Building relational model...
 start cmd /c "python scripts\Date.py && python scripts\Security.py && python scripts\Type.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
