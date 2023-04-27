@@ -1,7 +1,7 @@
 # S&P 500 Analysis
 | Current Relational Model |
 |:--:|
-|![](docs/images/SnP500.png)|
+|![]('docs/images/Current ERD.png')|
 |'Market' table references other tables via foreign keys|
  
 ### BI Reports
