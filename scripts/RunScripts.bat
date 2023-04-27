@@ -4,16 +4,12 @@ echo Collecting raw data...
 python scripts\UpdateRawData.py
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
-echo Searching for corporate actions...
-python scripts\CorporateActions.py
-if %ERRORLEVEL% NEQ 0 goto ERROR
-
-echo Building relational model...
+echo Building Date, Security, and Type tables...
 start cmd /c "python scripts\Date.py && python scripts\Security.py && python scripts\Type.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
-echo Establishing relationships...
-python scripts\Market.py
+echo Establishing relationships for Market and Corporate Actions...
+start cmd /c "python scripts\CorporateActions.py && python scripts\Market.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
 echo Relational model completed successfully!
