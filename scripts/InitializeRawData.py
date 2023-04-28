@@ -4,6 +4,8 @@ import yfinance as yf
 import datetime as dt
 import logging
 import xlsxwriter
+from urllib import request
+import ssl
 
 def write_out(df: pd.DataFrame, output: str):
     """
@@ -13,6 +15,16 @@ def write_out(df: pd.DataFrame, output: str):
     df.to_excel(writer, index=False)
     writer.close()
     return
+
+def get_url(link: str):
+    """
+    Bypase ssl cert verification and retrieve data from html
+    """
+    url = link
+    context = ssl._create_unverified_context()
+    response = request.urlopen(url, context=context)
+    html = response.read()
+    return html
 
 def get_historical_data(df_addInfo: pd.DataFrame, startDate: str, endDate: str) -> pd.DataFrame:
     """
@@ -45,7 +57,8 @@ def main():
     """
     Read in tickers and call methods to read and write data
     """
-    SnP500List = pd.read_html(r'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies', converters= {'CIK': str})[0]
+    html = get_url(r'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+    SnP500List = pd.read_html(html, converters= {'CIK': str})[0]
     sortData = SnP500List.sort_values(by=['Symbol'], ascending=True).astype('string')
     sortData['Symbol'] = sortData['Symbol'].str.replace('.','-', regex=True)
     additionalInfo = sortData[['Symbol', 'Security', 'GICS Sector', 'GICS Sub-Industry', 'CIK']]
