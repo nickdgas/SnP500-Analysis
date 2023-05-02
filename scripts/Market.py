@@ -47,10 +47,10 @@ def main():
     df_SecurityMerge = merge_dfs(df_RawData, df_Security, 'Symbol', 'Short Name')
     df_DateMerge = merge_dfs(df_SecurityMerge, df_Date, 'Date', 'Date')
     # unpivot price types for single merge 
-    df_Long = df_DateMerge.melt(id_vars=['SecurityID', 'ReportDateID','Volume', 'Dividends', 'Stock Splits'],value_vars=['Open', 'High', 'Low', 'Close'], var_name='Type', value_name='Price')
+    df_Long = df_DateMerge.melt(id_vars=['SecurityID', 'ReportDateID'],value_vars=['Open', 'High', 'Low', 'Close'], var_name='Type', value_name='Price')
     df_TypeMerge = merge_dfs(df_Long, df_Type, 'Type', 'Type')
     # filter columns; insert ID column
-    df_Market = df_TypeMerge[['ReportDateID', 'SecurityID', 'TypeID', 'Price', 'Volume', 'Dividends', 'Stock Splits']]
+    df_Market = df_TypeMerge[['ReportDateID', 'SecurityID', 'TypeID', 'Price']]
     df_Market.insert(0, 'ID', df_Market.index+1)
     # write to excel
     write_out(df_Market, r'data\processed\Market.xlsx')

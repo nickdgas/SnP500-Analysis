@@ -1,0 +1,8 @@
+High/Low Spread = CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "High") - CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "Low")
+
+Open/Close Spread = CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "Open") - CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "Close")
+
+PV = (CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "High") + CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "Low") + CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "Close")) / 3
+
+VWAP = (CALCULATE(MAX('Market'[PV])) * CALCULATE(MAX('Volume'[Volume]), 'Date'[Date])) / CALCULATE(SUM('Market'[Volume]), 'Market'[Date].[Month] = MAX('Market'[Date].[Month]))
+CALCULATE(SUM(Volume[Volume]), ALLEXCEPT(Date, [Year], Date[Month]),VALUES(Date[ReferenceDate].[Month]))

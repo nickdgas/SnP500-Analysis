@@ -9,7 +9,7 @@ start cmd /c "python scripts\Date.py && python scripts\Security.py && python scr
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
 echo Establishing relationships for Market and Corporate Actions...
-start cmd /c "python scripts\CorporateActions.py && python scripts\Market.py"
+start cmd /c "python scripts\Volume.py && python scripts\CorporateActions.py && python scripts\Market.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
 echo Relational model completed successfully!
