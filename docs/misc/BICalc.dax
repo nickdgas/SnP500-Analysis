@@ -6,3 +6,18 @@ PV = (CALCULATE(MAX('Market'[Price]), 'Type'[Type] = "High") + CALCULATE(MAX('Ma
 
 VWAP = (CALCULATE(MAX('Market'[PV])) * CALCULATE(MAX('Volume'[Volume]), 'Date'[Date])) / CALCULATE(SUM('Market'[Volume]), 'Market'[Date].[Month] = MAX('Market'[Date].[Month]))
 CALCULATE(SUM(Volume[Volume]), ALLEXCEPT(Date, [Year], Date[Month]),VALUES(Date[ReferenceDate].[Month]))
+
+test = 
+DIVIDE(
+    CALCULATE(
+        SUM('Volume'[Volume]), 
+        VALUES('Date'[Date].[Year]), 
+        VALUES('Date'[Date].[Month])
+    ),
+    CALCULATE(
+        'Market'[TPV], 
+        VALUES('Date'[Date].[Year]), 
+        VALUES('Date'[Date].[Month]), 
+        VALUES('Date'[Date].[Day])
+    )
+)
