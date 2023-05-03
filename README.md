@@ -14,7 +14,7 @@
 |:--:|
 |![](docs/images/AAPLPricingSpreadVisual.png)|
 |Displays open/close and high/low pricing data for Apple Inc.
- Calculated spread can be found ![](reports/AAPL Pricing Spread.csv)|
+ Calculated spread can be found ![](reports)|
 
 ### Disclaimer
 Current data source limited to yfinance API. Will look to incorporate more APIs as development advances.
