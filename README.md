@@ -45,7 +45,7 @@
 | Historical Pricing Data for 2023 |
 |:--:|
 |![](docs/images/FAANG+MAMAAPricingData.png)|
-|Displays open/close and high/low pricing data for top tech companies<br />Data can be found [HERE](Reports/FAANG+MAMAA%20Pricing%20Data)|
+|Displays open/close and high/low pricing data for top tech companies<br />Data can be found [HERE](Reports/FAANG+MAMAA%20Pricing%20Data.csv)|
 
 |AAPL Pricing Spread for 2023|
 |:--:|
