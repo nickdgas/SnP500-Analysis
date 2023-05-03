@@ -10,11 +10,11 @@
 |![](docs/images/FAANG+MAMAAPricingData.png)|
 |Displays open/close and high/low pricing data for top tech companies|
 
-| AAPL Pricing Spread for 2023 |
+AAPL Pricing Spread for 2023
 |:--:|
 |![](docs/images/AAPLPricingSpreadVisual.png)|
-|Displays open/close and high/low pricing data for Apple Inc.
- Calculated spread can be found [HERE](Reports/AAPL%20Pricing%20Spread.csv)|
+Displays open/close and high/low pricing data for Apple Inc.
+Calculated spread can be found [HERE](Reports/AAPL%20Pricing%20Spread.csv)
 
 ### Disclaimer
 Current data source limited to yfinance API. Will look to incorporate more APIs as development advances.
