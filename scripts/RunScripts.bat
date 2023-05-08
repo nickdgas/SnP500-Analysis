@@ -8,11 +8,11 @@ echo Building Date, Security, and Type tables...
 start cmd /c "python scripts\Date.py && python scripts\Security.py && python scripts\Type.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
-echo Establishing relationships for Market and Corporate Actions...
+echo Merging to create Volume, Market, and Corporate Actions tables...
 start cmd /c "python scripts\Volume.py && python scripts\CorporateActions.py && python scripts\Market.py"
 if %ERRORLEVEL% NEQ 0 goto ERROR
 
-echo Relational model completed successfully!
+echo Procedure complete
 goto END
 
 :ERROR
