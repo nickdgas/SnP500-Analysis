@@ -32,7 +32,7 @@
 - [x] Initialize DB
 - [x] Update DB
 - [x] Create automation script
-- [] Generate BI reports
+- [ ] Generate BI reports
     - [x] FAANG + MAMAA 
         - [x] AAPL spread
         - [ ] AMZN spread
