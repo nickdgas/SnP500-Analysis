@@ -19,7 +19,7 @@
 ## About The Project
 | Current Relational Model |
 |:--:|
-|![](docs/images/CurrentERD.png)|
+|![](docs/images/RelationalDiagram_V4.png)|
 |'Market' table references other tables via foreign keys|
 
 ## Built With
