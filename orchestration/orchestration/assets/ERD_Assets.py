@@ -12,6 +12,15 @@ def merge_dfs(df1: pd.DataFrame, df2: pd.DataFrame, left: str, right: str) -> pd
     merged = df1.merge(df2, left_on=left, right_on=right)
     return merged
 
+def write_out(df: pd.DataFrame, output: str):
+    """
+    Writes output to excel
+    """
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False)
+    writer.close()
+    return
+
 @asset(name='Volume_Staging', group_name='Volume_Assets')
 def stage_Volume(Raw_Data: pd.DataFrame) -> pd.DataFrame:
     dfRaw = Raw_Data
@@ -36,16 +45,19 @@ def create_Tables(Raw_Data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, p
     dfSec = dfRaw.drop_duplicates(subset='Symbol', keep='first').rename(columns={'Symbol': 'Short Name', 'Security': 'Long Name', 'GICS Sector': 'Industry Sector', 'GICS Sub-Industry': 'Industry Group'})
     dfSec.insert(0, 'ID', dfSec.index+1)
     dfSec = dfSec[['ID', 'Short Name', 'Long Name', 'Industry Sector', 'Industry Group', 'CIK']]
+    write_out(dfSec, r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\processed\Security.xlsx')
     # date table
     dfDate = pd.DataFrame()
     dfDate['Date'] = dfRaw['Date'].drop_duplicates(keep='first')
     dfDate['ID'] = dfDate['Date'].astype('string').str.replace('-','', regex=True).astype('int64')
     dfDate = dfDate[['ID', 'Date']]
+    write_out(dfDate, r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\processed\Date.xlsx')
     # type table
     dfType = dfRaw.melt(id_vars='Symbol',value_vars=['Open', 'High', 'Low', 'Close'], var_name='Type')
     dfType = dfType.drop_duplicates(subset='Type', keep='first')
     dfType = dfType[['Type']].reset_index(drop=True)
     dfType.insert(0, 'ID', dfType.index+1)
+    write_out(dfType, r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\processed\Type.xlsx')
     return dfSec, dfDate, dfType
 
 @asset(name='Volume', group_name='Volume_Assets')
@@ -57,6 +69,7 @@ def update_Volume(Volume_Staging: pd.DataFrame, Security: pd.DataFrame, Date: pd
     dfVolume = Volume_Staging.merge(dfSecurity, left_on='Symbol', right_on='Short Name')
     dfVolume = dfVolume.merge(dfDate, left_on='Date', right_on='Date')
     dfVolume = dfVolume[['ReportDateID', 'SecurityID', 'Volume']]
+    write_out(dfVolume, r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\processed\Volume.xlsx')
     return dfVolume
 
 @asset(name='Actions', group_name='Actions_Assets')
@@ -72,6 +85,7 @@ def update_Actions(Actions_Staging: pd.DataFrame, Security: pd.DataFrame) -> pd.
     dfActions['Is Current'] = (dfActions.groupby('SecurityID')['Start Date'].transform('last') == dfActions['Start Date']).astype(int)
     dfActions['End Date'] = dfActions.groupby('SecurityID')['Start Date'].transform('last')
     dfActions.loc[dfActions['Is Current'] == 1, 'End Date'] = current
+    write_out(dfActions, r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\processed\CorporateActions.xlsx')
     return dfActions
 
 @asset(name='Market', group_name='Market_Assets')
@@ -91,4 +105,5 @@ def update_Market(Market_Staging: pd.DataFrame, Security: pd.DataFrame, Date: pd
     # filter columns; insert ID column
     dfMarket = dfMarket[['ReportDateID', 'SecurityID', 'TypeID', 'Price']]
     dfMarket.insert(0, 'ID', dfMarket.index+1)
+    write_out(dfMarket, r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\processed\Market.xlsx')
     return dfMarket
