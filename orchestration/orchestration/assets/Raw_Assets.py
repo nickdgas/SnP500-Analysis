@@ -71,7 +71,7 @@ def update_Raw(Raw_Staging: pd.DataFrame) -> pd.DataFrame:
     dfOld = pd.read_excel(r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\raw\RawData.xlsx', converters= {'CIK': str})
     dfUpdate = pd.concat([dfOld, Raw_Staging]).reset_index(drop=True)
     dfUpdate = dfUpdate.sort_values(by='Date')
-    # writer = pd.ExcelWriter(r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\raw\RawData.xlsx', engine='xlsxwriter')
-    # dfUpdate.to_excel(writer, index=False)
-    # writer.close()
+    writer = pd.ExcelWriter(r'C:\Users\nick.dagostino\Documents\repos\SnP500-Analysis\data\raw\RawData.xlsx', engine='xlsxwriter')
+    dfUpdate.to_excel(writer, index=False)
+    writer.close()
     return dfUpdate
